@@ -6,10 +6,13 @@ plugins {
     id 'org.springframework.boot' version '2.6.2'
     id 'io.spring.dependency-management' version '1.1.3'
     id 'com.diffplug.spotless' version '6.19.0'
+    id "com.jfrog.artifactory" version "4.24.23"
 }
 
 group = 'org.mifos'
 version = '0.0.1-SNAPSHOT'
+def artifactId = 'ph-ee-dpg-exporter'
+def versionNumber = version
 
 java {
     sourceCompatibility = '17'
@@ -31,6 +34,8 @@ repositories {
         url = uri('https://jfrog.sandbox.fynarfin.io/artifactory/fyn-libs-snapshot')
     }
 }
+
+apply plugin: 'io.spring.dependency-management'
 
 apply plugin:'com.diffplug.spotless'
 spotless {
@@ -55,15 +60,18 @@ spotless {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-
     //	conductor dependencies
     implementation 'com.netflix.conductor:conductor-common:3.13.8'
     implementation 'com.netflix.conductor:conductor-client:3.13.8'
+    implementation 'com.netflix.conductor:conductor-core:3.13.8'
+
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 
     checkstyle 'com.puppycrawl.tools:checkstyle:10.9.3'
     checkstyle 'com.github.sevntu-checkstyle:sevntu-checks:1.44.1'
@@ -171,11 +179,11 @@ configure(this) {
     }
 }
 
-configurations {
-    all {
-        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-    }
-}
+//configurations {
+//    all {
+//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+//    }
+//}
 
 
 checkstyle {
@@ -184,4 +192,50 @@ checkstyle {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+//			artifact file("build/libs/ph-ee-dpg-exporter-0.0.1-SNAPSHOT.jar")
+
+        }
+
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+jar {
+    enabled = true
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+artifactory {
+    contextUrl = 'https://jfrog.sandbox.fynarfin.io/artifactory' // base artifactory url
+    publish {
+        repository {
+            repoKey = 'fyn-libs-snapshot'    //Artifactory repository key to publish to
+            // username = 'avik@fynarfin.io'    publisher user name
+            // password = '****'                publisher password
+            username = "admin"
+            password = "Langlock010!"
+            maven = true
+        }
+        defaults {
+            publications('mavenJava')
+        }
+    }
+
+}
+artifactoryPublish {
+    dependsOn jar
 }
