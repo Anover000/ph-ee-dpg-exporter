@@ -9,8 +9,8 @@ plugins {
     id "com.jfrog.artifactory" version "4.24.23"
 }
 
-group = 'org.mifos'
-version = '0.0.1-SNAPSHOT'
+group = 'com.netflix.conductor'
+version = '1.0.0-SNAPSHOT'
 def artifactId = 'ph-ee-dpg-exporter'
 def versionNumber = version
 
@@ -21,6 +21,9 @@ java {
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
+    }
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
 }
 
@@ -179,12 +182,6 @@ configure(this) {
     }
 }
 
-//configurations {
-//    all {
-//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-//    }
-//}
-
 
 checkstyle {
     checkstyleMain.exclude '**/gsmastub/**'
@@ -205,11 +202,7 @@ publishing {
     }
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
+
 
 jar {
     enabled = true
