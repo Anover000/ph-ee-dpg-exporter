@@ -1,5 +1,5 @@
-# ph-ee-dpg-template
-=======
+# ph-ee-dpg-exporter
+
 # dpga
 Digital Public Goods Alliance middleware for integration to real-time payment systems.
 #Auto-Trigger
