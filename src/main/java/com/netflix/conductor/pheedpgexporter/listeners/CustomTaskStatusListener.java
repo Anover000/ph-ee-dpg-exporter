@@ -12,20 +12,21 @@
  */
 package com.netflix.conductor.pheedpgexporter.listeners;
 
+import com.netflix.conductor.core.listener.TaskStatusListener;
+import com.netflix.conductor.model.TaskModel;
+import com.netflix.conductor.pheedpgexporter.kafkaexporter.PublishTaskMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.netflix.conductor.core.listener.TaskStatusListener;
-import com.netflix.conductor.model.TaskModel;
-import com.netflix.conductor.pheedpgexporter.kafkaexporter.PublishTaskMessage;
-
 @Component
-public class  CustomTaskStatusListener implements TaskStatusListener {
+public class CustomTaskStatusListener implements TaskStatusListener {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomTaskStatusListener.class);
 
-    @Autowired PublishTaskMessage publishTaskMessage;
+    @Autowired
+    PublishTaskMessage publishTaskMessage;
 
     @Override
     public void onTaskScheduled(TaskModel task) {

@@ -22,9 +22,6 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-    all {
-        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-    }
 }
 
 repositories {
@@ -195,10 +192,8 @@ publishing {
     publications {
         maven(MavenPublication) {
             from(components.java)
-//			artifact file("build/libs/ph-ee-dpg-exporter-0.0.1-SNAPSHOT.jar")
-
+            //			artifact file("build/libs/ph-ee-dpg-exporter-0.0.1-SNAPSHOT.jar")
         }
-
     }
 }
 
@@ -227,7 +222,6 @@ artifactory {
             publications('mavenJava')
         }
     }
-
 }
 artifactoryPublish {
     dependsOn jar

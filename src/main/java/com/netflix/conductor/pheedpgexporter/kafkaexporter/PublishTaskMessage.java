@@ -1,9 +1,8 @@
 package com.netflix.conductor.pheedpgexporter.kafkaexporter;
 
+import com.netflix.conductor.model.TaskModel;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-
-import com.netflix.conductor.model.TaskModel;
 
 @Component
 public class PublishTaskMessage {

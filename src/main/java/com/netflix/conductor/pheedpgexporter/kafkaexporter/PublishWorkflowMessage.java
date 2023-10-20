@@ -1,9 +1,8 @@
 package com.netflix.conductor.pheedpgexporter.kafkaexporter;
 
+import com.netflix.conductor.model.WorkflowModel;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-
-import com.netflix.conductor.model.WorkflowModel;
 
 @Component
 public class PublishWorkflowMessage {
