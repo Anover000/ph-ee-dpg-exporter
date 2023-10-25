@@ -192,7 +192,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             from(components.java)
-            //			artifact file("build/libs/ph-ee-dpg-exporter-0.0.1-SNAPSHOT.jar")
+            artifact file("build/libs/ph-ee-dpg-exporter-0.0.1-SNAPSHOT.jar")
         }
     }
 }
@@ -212,10 +212,8 @@ artifactory {
     publish {
         repository {
             repoKey = 'fyn-libs-snapshot'    //Artifactory repository key to publish to
-            // username = 'avik@fynarfin.io'    publisher user name
-            // password = '****'                publisher password
-            username = "admin"
-            password = "Langlock010!"
+            username = "username"
+            password = "password"
             maven = true
         }
         defaults {
